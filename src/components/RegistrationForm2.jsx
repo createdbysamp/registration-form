@@ -29,7 +29,7 @@ function RegistrationForm2() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className="mb-3">
         <label>
           Username:
           <input
@@ -40,7 +40,7 @@ function RegistrationForm2() {
           />
         </label>
       </div>
-      <div>
+      <div className="mb-2">
         <label>
           Email:
           <input
@@ -51,7 +51,9 @@ function RegistrationForm2() {
           />
         </label>
       </div>
-      <button type="submit">Register</button>
+      <button className="mb-2" type="submit">
+        Register
+      </button>
       <p>Current Username: {formData.username}</p>
       <p>Current Email: {formData.email}</p>
     </form>
