@@ -1,4 +1,5 @@
 import { useState } from "react";
+import FormValidation from "./FormValidation";
 
 function RegistrationForm() {
   const [username, setUsername] = useState("");
@@ -16,53 +17,70 @@ function RegistrationForm() {
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
 
+  const handleBlur = () => {
+    const { validateForm } = FormValidation({
+      username,
+      email,
+      funFact,
+      favoriteLanguage,
+      agreedToTerms,
+      setUsernameError,
+      setEmailError,
+      setFunFactError,
+      setFavoriteLanguageError,
+      setTermsError,
+    });
+    validateForm();
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    validateForm();
 
-    setUsernameError("");
-    setEmailError("");
-    setFunFactError("");
-    setFavoriteLanguageError("");
-    setTermsError("");
+    // setUsernameError("");
+    // setEmailError("");
+    // setFunFactError("");
+    // setFavoriteLanguageError("");
+    // setTermsError("");
 
-    let isValid = true;
+    // let isValid = true;
 
-    if (username.trim() === "") {
-      setUsernameError("Username is required.");
-      isValid = false;
-    }
-    if (email.trim() === "") {
-      setEmailError("Email is req.");
-      isValid = false;
-    }
-    if (username.trim() !== "" && username.length < 3) {
-      setUsernameError("Username must be at least 3 characters...");
-      isValid = false;
-    }
+    // if (username.trim() === "") {
+    //   setUsernameError("Username is required.");
+    //   isValid = false;
+    // }
+    // if (email.trim() === "") {
+    //   setEmailError("Email is req.");
+    //   isValid = false;
+    // }
+    // if (username.trim() !== "" && username.length < 3) {
+    //   setUsernameError("Username must be at least 3 characters...");
+    //   isValid = false;
+    // }
 
-    if (username.trim() !== "" && !email.includes("@")) {
-      setEmailError("Please enter a valid email address.");
-      isValid = false;
-    }
+    // if (username.trim() !== "" && !email.includes("@")) {
+    //   setEmailError("Please enter a valid email address.");
+    //   isValid = false;
+    // }
 
-    if (agreedToTerms === false) {
-      setTermsError("You must agree to the terms and conditions.");
-      isValid = false;
-    }
+    // if (agreedToTerms === false) {
+    //   setTermsError("You must agree to the terms and conditions.");
+    //   isValid = false;
+    // }
 
-    if (funFact.trim() === "") {
-      setFunFactError("Please give us a fun fact! We demand it.");
-      isValid = false;
-    }
+    // if (funFact.trim() === "") {
+    //   setFunFactError("Please give us a fun fact! We demand it.");
+    //   isValid = false;
+    // }
 
-    if (favoriteLanguage === "None") {
-      setFavoriteLanguageError("Pick a fav language, or else.");
-      isValid = false;
-    }
+    // if (favoriteLanguage === "None") {
+    //   setFavoriteLanguageError("Pick a fav language, or else.");
+    //   isValid = false;
+    // }
 
-    if (isValid === false) {
-      return;
-    }
+    // if (isValid === false) {
+    //   return;
+    // }
 
     alert(
       `Submitted Username: ${username} \nSubmitted Email: ${email} \nCreated Fun Fact: ${funFact} \nSelected Fav Language: ${favoriteLanguage} \nAgreed to Terms: ${
@@ -82,7 +100,12 @@ function RegistrationForm() {
       <div id="username">
         <label>
           Username:
-          <input type="text" value={username} onChange={handleUsernameChange} />
+          <input
+            type="text"
+            value={username}
+            onChange={handleUsernameChange}
+            onBlur={handleBlur}
+          />
         </label>
         {usernameError && (
           <p style={{ color: "red", fontSize: "0.8em" }}>{usernameError}</p>
@@ -91,7 +114,12 @@ function RegistrationForm() {
       <div id="email">
         <label>
           Email:
-          <input type="email" value={email} onChange={handleEmailChange} />
+          <input
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
+            onBlur={handleBlur}
+          />
         </label>
         {emailError && (
           <p style={{ color: "red", fontSize: "0.8em" }}>{emailError}</p>
@@ -103,6 +131,7 @@ function RegistrationForm() {
           <textarea
             value={funFact}
             onChange={(e) => setFunFact(e.target.value)}
+            onBlur={handleBlur}
           />
         </label>
         {funFactError && (
@@ -115,6 +144,7 @@ function RegistrationForm() {
           <select
             value={favoriteLanguage}
             onChange={(e) => setFavoriteLanguage(e.target.value)}
+            onBlur={handleBlur}
           >
             <option value="None">Please select a language</option>
             <option value="HTML">HTML</option>
@@ -137,6 +167,7 @@ function RegistrationForm() {
             type="checkbox"
             checked={agreedToTerms}
             onChange={(e) => setAgreedToTerms(e.target.checked)}
+            onBlur={handleBlur}
           />
           I agree to the terms and conditions
         </label>
