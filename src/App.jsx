@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <h1 className="mb-1">Hello, let's get you registered!</h1>
-      <RegistrationForm2 />
+      <RegistrationForm />
     </>
   );
 }

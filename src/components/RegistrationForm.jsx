@@ -7,11 +7,62 @@ function RegistrationForm() {
   const [favoriteLanguage, setFavoriteLanguage] = useState("None");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
 
+  const [usernameError, setUsernameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [funFactError, setFunFactError] = useState("");
+  const [favoriteLanguageError, setFavoriteLanguageError] = useState("");
+  const [termsError, setTermsError] = useState("");
+
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    setUsernameError("");
+    setEmailError("");
+    setFunFactError("");
+    setFavoriteLanguageError("");
+    setTermsError("");
+
+    let isValid = true;
+
+    if (username.trim() === "") {
+      setUsernameError("Username is required.");
+      isValid = false;
+    }
+    if (email.trim() === "") {
+      setEmailError("Email is req.");
+      isValid = false;
+    }
+    if (username.trim() !== "" && username.length < 3) {
+      setUsernameError("Username must be at least 3 characters...");
+      isValid = false;
+    }
+
+    if (username.trim() !== "" && !email.includes("@")) {
+      setEmailError("Please enter a valid email address.");
+      isValid = false;
+    }
+
+    if (agreedToTerms === false) {
+      setTermsError("You must agree to the terms and conditions.");
+      isValid = false;
+    }
+
+    if (funFact.trim() === "") {
+      setFunFactError("Please give us a fun fact! We demand it.");
+      isValid = false;
+    }
+
+    if (favoriteLanguage === "None") {
+      setFavoriteLanguageError("Pick a fav language, or else.");
+      isValid = false;
+    }
+
+    if (isValid === false) {
+      return;
+    }
 
     alert(
       `Submitted Username: ${username} \nSubmitted Email: ${email} \nCreated Fun Fact: ${funFact} \nSelected Fav Language: ${favoriteLanguage} \nAgreed to Terms: ${
@@ -21,6 +72,9 @@ function RegistrationForm() {
 
     setUsername("");
     setEmail("");
+    setFunFact("");
+    setFavoriteLanguage("None");
+    setAgreedToTerms(false);
   };
 
   return (
@@ -30,12 +84,18 @@ function RegistrationForm() {
           Username:
           <input type="text" value={username} onChange={handleUsernameChange} />
         </label>
+        {usernameError && (
+          <p style={{ color: "red", fontSize: "0.8em" }}>{usernameError}</p>
+        )}
       </div>
       <div id="email">
         <label>
           Email:
           <input type="email" value={email} onChange={handleEmailChange} />
         </label>
+        {emailError && (
+          <p style={{ color: "red", fontSize: "0.8em" }}>{emailError}</p>
+        )}
       </div>
       <div id="fun-fact">
         <label>
@@ -45,6 +105,9 @@ function RegistrationForm() {
             onChange={(e) => setFunFact(e.target.value)}
           />
         </label>
+        {funFactError && (
+          <p style={{ color: "red", fontSize: "0.8em" }}>{funFactError}</p>
+        )}
       </div>
       <div id="favorite-language">
         <label>
@@ -62,6 +125,11 @@ function RegistrationForm() {
             <option value="Python">Python</option>
           </select>
         </label>
+        {favoriteLanguageError && (
+          <p style={{ color: "red", fontSize: "0.8em" }}>
+            {favoriteLanguageError}
+          </p>
+        )}
       </div>
       <div id="agreed-to-terms">
         <label>
@@ -72,6 +140,9 @@ function RegistrationForm() {
           />
           I agree to the terms and conditions
         </label>
+        {termsError && (
+          <p style={{ color: "red", fontSize: "0.8em" }}>{termsError}</p>
+        )}
       </div>
       <button type="submit">Register</button>
       <p>Current Username: {username}</p>
